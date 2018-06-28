@@ -4,11 +4,13 @@ import java.text.DecimalFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -29,12 +31,13 @@ public class CollectController {
 	
 	@RequestMapping("/getInfo")
     public JSONObject getInfo(@RequestBody String str) {
-		logger.info("getInfo");
+		logger.info("OperationLog|EQ0001|必填信息不能为空|message+X");
         return MonitorSignUtils.reJson(false, "方法名错误！");
     }
+	
 	@RequestMapping("/getError")
 	public JSONObject getError(@RequestBody String str) {
-		logger.info("getError");
+		logger.error("OperationLog|EQ0000|系统错误|message+X");
 		return MonitorSignUtils.reJson(false, "方法名错误！");
 	}
 	

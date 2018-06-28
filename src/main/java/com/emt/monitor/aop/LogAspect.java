@@ -9,8 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
+import com.alibaba.fastjson.JSONObject;
 import com.emt.monitor.util.GUID;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 
 
@@ -27,21 +30,24 @@ public class LogAspect {
 
     @Around("executeService()")
     public Object doAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) {
-    	String guid = GUID.get32UUID();
     	Object obj = new Object();
+    	StringWriter sw = new StringWriter();
         try {
-            logger.info(guid+"|"+proceedingJoinPoint.getSignature().getName() + "|start:开始..........");
+            logger.info("START|" + proceedingJoinPoint.getSignature().getName() + "|(后面字段无要求，按照个人需求添加)请求开始XXXX..........");
             obj = proceedingJoinPoint.proceed();
-//            logger.info(guid + "|" + proceedingJoinPoint.getSignature().getName() + "|end:结束............");
             return obj;
         } catch (Throwable throwable) {
-        	throwable.printStackTrace();
-        	return obj; 
-//            logger.error(guid + "|" + proceedingJoinPoint.getSignature().getName() + "|error:" + throwable);
+        	throwable.printStackTrace(new PrintWriter(sw, true));
+        	logger.info("\n" + sw.toString());
+        	return JSONObject.toJSON(obj); 
         }finally{
-        	logger.info((new StringBuilder()).append("END:"+guid+"|").append(proceedingJoinPoint.getSignature().getName()).toString());
+        	logger.info("END|" + proceedingJoinPoint.getSignature().getName() + "|(后面字段无要求，按照个人需求添加)请求结束XXXXX..........");
         }
 		
+    }
+    
+    public void returnHandler(Object name) { //在返回通知中获取返回值
+        System.out.println("返回通知:" + name);
     }
 
 

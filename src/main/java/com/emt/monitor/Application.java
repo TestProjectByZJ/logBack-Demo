@@ -11,48 +11,35 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 
-//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
-//public class Application extends SpringBootServletInitializer {
-//
-//
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//        return application.sources(Application.class);
-//    }
-//
-//    public static void main(String[] args) {
-//        SpringApplication.run(Application.class, args);
-//    }
-//}
-
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
-public class Application implements EmbeddedServletContainerCustomizer {
-	
-	@Bean    
-	 public ErrorPageFilter errorPageFilter() {   
-	      return new ErrorPageFilter();   
-	 }    
-	@Bean
-	public FilterRegistrationBean disableSpringBootErrorFilter(ErrorPageFilter filter) {        
-	      FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();           
-	      filterRegistrationBean.setFilter(filter);      
-	      filterRegistrationBean.setEnabled(false);      
-	      return filterRegistrationBean;  
-	}
+public class Application extends SpringBootServletInitializer {
 
-
-	public static void main(String[] args) {
-    	SpringApplication.run(Application.class, args);
-    }
 
     @Override
-    public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
-        configurableEmbeddedServletContainer.setPort(18100);
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 }
+
+//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
+//public class Application implements EmbeddedServletContainerCustomizer {
+//	
+//
+//	public static void main(String[] args) {
+//    	SpringApplication.run(Application.class, args);
+//    }
+//
+//    @Override
+//    public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
+//        configurableEmbeddedServletContainer.setPort(18100);
+//    }
+//}

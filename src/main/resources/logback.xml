@@ -10,7 +10,7 @@
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%X{projectName}] [%X{sessionTokenId}] %-50logger : %msg %n</Pattern>
         </encoder>
     </appender>
 	
@@ -26,9 +26,10 @@
             <level>INFO</level>
         </filter>
         <encoder>
-            <Pattern>[%thread] %-5level %logger{35} - %msg %n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%X{projectName}] [%X{sessionTokenId}] %-50logger : %msg %n</Pattern>
         </encoder>
     </appender>
+    
     <appender name="dailyRollingERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${user.home}/${APP_NAME}/logs/${APP_NAME}-ERROR.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -41,24 +42,18 @@
             <level>ERROR</level>
         </filter>
         <encoder>
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%X{projectName}] [%X{sessionTokenId}] %-50logger : %msg %n</Pattern>
         </encoder>
     </appender>
-    
-    
-   <!--TRACE, DEBUG, INFO, WARN, ERROR-->
-   <!--  
-   <root level="INFO">
+    <!--TRACE, DEBUG, INFO, WARN, ERROR-->
+    <!-- <root level="INFO">
         <appender-ref ref="dailyRollingINFO"/>
         <appender-ref ref="dailyRollingERROR"/>
-        <appender-ref ref="Console"/>
     </root> -->
-    
     <logger name="com.emt" level="INFO" additivity="false">
     	<appender-ref ref="dailyRollingINFO"/>
         <appender-ref ref="dailyRollingERROR"/>
         <appender-ref ref="Console"/>
     </logger>
-	
-	
+
 </configuration>
